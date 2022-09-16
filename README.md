@@ -1,2 +1,2 @@
 # react-demo
-A snadbox for exploring react
+A sandbox for exploring react
