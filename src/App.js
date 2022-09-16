@@ -1,34 +1,53 @@
 import React, { Component } from "react";
-import Overview from "./Components/Overview";
-import "./App.css";
+import Overview from "./components/Overview";
+import uniqid from "uniqid";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
 
-    this.state = { tasks: ["Study React", "Buy dog food", "Eat jello"] };
+    this.state = {
+      task: { text: "", id: uniqid() },
+      tasks: [],
+    };
 
-    this.addTask = this.addTask.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleChange = this.handleChange.bind(this);
+    // this.onSubmitTask = this.onSubmitTask.bind(this);
   }
 
-  addTask(e) {
-    console.log(e.target.value);
-    this.setState({ tasks: [...this.state.tasks, e.target.value] });
-  }
+  handleChange = (e) => {
+    this.setState({
+      task: {
+        text: e.target.value,
+        id: this.state.task.id,
+      },
+    });
+  };
 
-  handleSubmit(e) {
-    console.log(e.target.value);
-  }
+  onSubmitTask = (e) => {
+    e.preventDefault();
+    this.setState({
+      tasks: [...this.state.tasks, this.state.task],
+      task: { text: "", id: uniqid() },
+    });
+  };
 
   render() {
+    const { task, tasks } = this.state;
+
     return (
       <div>
-        <Overview data={this.state.tasks} />
-        <form>
-          <input type="submit" value="Add a new task:"></input>
-          <input type="text" onChange={this.addTask}></input>
+        <form onSubmit={this.onSubmitTask}>
+          <label htmlFor="taskInput">Enter a new task:</label>
+          <input
+            onChange={this.handleChange}
+            value={task.text}
+            type="text"
+            id="taskInput"
+          />
+          <button type="submit">Add task</button>
         </form>
+        <Overview tasks={tasks} />
       </div>
     );
   }
