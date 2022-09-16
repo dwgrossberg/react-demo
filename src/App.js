@@ -11,8 +11,7 @@ class App extends Component {
       tasks: [],
     };
 
-    // this.handleChange = this.handleChange.bind(this);
-    // this.onSubmitTask = this.onSubmitTask.bind(this);
+    this.onDeleteTask = this.onDeleteTask.bind(this);
   }
 
   handleChange = (e) => {
@@ -32,6 +31,16 @@ class App extends Component {
     });
   };
 
+  onDeleteTask = (id) => {
+    console.log(id);
+    this.setState({
+      tasks: this.state.tasks.filter((item) => {
+        console.log(item.id, id);
+        return item.id !== id;
+      }),
+    });
+  };
+
   render() {
     const { task, tasks } = this.state;
 
@@ -47,7 +56,7 @@ class App extends Component {
           />
           <button type="submit">Add task</button>
         </form>
-        <Overview tasks={tasks} />
+        <Overview tasks={tasks} onDeleteTask={this.onDeleteTask} />
       </div>
     );
   }
