@@ -32,13 +32,27 @@ class App extends Component {
   };
 
   onDeleteTask = (id) => {
-    console.log(id);
     this.setState({
       tasks: this.state.tasks.filter((item) => {
         console.log(item.id, id);
         return item.id !== id;
       }),
     });
+  };
+
+  onEditTask = (text, id) => {
+    this.setState(
+      {
+        tasks: [
+          ...this.state.tasks.filter((item) => {
+            return item.id !== id;
+          }),
+          { text: text, id: id },
+        ],
+        task: { text: "", id: uniqid() },
+      },
+      () => console.log(this.state)
+    );
   };
 
   render() {
@@ -56,7 +70,12 @@ class App extends Component {
           />
           <button type="submit">Add task</button>
         </form>
-        <Overview tasks={tasks} onDeleteTask={this.onDeleteTask} />
+        <Overview
+          tasks={tasks}
+          onDeleteTask={this.onDeleteTask}
+          handleSetTask={this.handleSetTask}
+          onEditTask={this.onEditTask}
+        />
       </div>
     );
   }
